@@ -1,0 +1,22 @@
+{
+  "name": "recsys-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-cli": "0.0.2",
+    "fs-extra": "^6.0.1",
+    "serverless": "^1.26.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-python-requirements": "^4.0.3",
+    "serverless-wsgi": "^1.4.8",
+    "serverless-domain-manager": "^2.2.2"
+  }
+}

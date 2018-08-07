@@ -1,0 +1,73 @@
+service: python-serverless-api-flask
+
+plugins:
+  - serverless-python-requirements
+  - serverless-wsgi
+  - serverless-domain-manager
+
+custom:
+  wsgi:
+    app: app.appl.appl
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: false
+    
+  AWS_CONF:
+    yourprofilename:
+      account_id: YOUR_ACCONT
+      role: arn:aws:iam::${self:custom.AWS_CONF.${self:provider.profile}.account_id}:role/Full_role_name
+      customDomain:
+        domainName: yourdomain.com
+      bucketPrefix: yourbucket
+      imageHandler: https://yourimagehandler.cloudfront.net
+
+  customDomain:
+    domainName: ${self:custom.AWS_CONF.${self:provider.profile}.customDomain.domainName}
+    basePath: ${self:provider.stage}
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+
+
+
+  profiles:
+    dev: yourprofilename
+    hml: yourprofilename
+    prd: yourprofilename
+  regions:
+    dev: us-east-2
+    hml: us-east-2
+    prd: us-east-2
+    
+  
+package:
+  exclude:
+    - "**/**"
+  include :
+    - app/**
+
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: us-east-2
+  role: ${self:custom.AWS_CONF.${self:provider.profile}.role}
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  environment:
+    STAGE: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    ACCOUNT_ID: ${self:custom.AWS_CONF.${self:provider.profile}.account_id}
+    SERVICE: ${self:service}
+  
+functions:
+  app:
+    handler: wsgi.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          private : false
+      - http:
+          path: /{proxy+}
+          method: ANY
+          private : false

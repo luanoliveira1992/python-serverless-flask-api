@@ -2,7 +2,7 @@ aniso8601==3.0.0
 certifi==2018.1.18
 click==6.7
 Flask==0.12.2
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 Flask-RESTful==0.3.6
 flask-restplus==0.10.1
 itsdangerous==0.24
